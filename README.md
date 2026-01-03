@@ -1,8 +1,10 @@
+<p align="center">
+  <img alt="Screenshot of the application" src="screenshot.png">
+</p>
+
 # Friends Log
 
 A tiny app to track when I last saw my friends so I don't accidentally become a hermit.
-
-![Screenshot](screenshot.png)
 
 ## What it does
 
