@@ -1,0 +1,102 @@
+{
+  "friends": [
+    {
+      "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+      "name": "Woland",
+      "maxDelayDays": 60,
+      "interactions": [
+        { "id": "i1", "date": "2025-10-20", "note": "Chess and philosophical debate at Patriarch's Ponds" },
+        { "id": "i2", "date": "2025-08-01", "note": "Magic show - he pulled some wild tricks" }
+      ]
+    },
+    {
+      "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+      "name": "Margarita",
+      "maxDelayDays": 14,
+      "interactions": [
+        { "id": "i3", "date": "2026-01-01", "note": "New Year's ball - unforgettable night" },
+        { "id": "i4", "date": "2025-12-20", "note": "Helped her find an old manuscript" }
+      ]
+    },
+    {
+      "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+      "name": "Behemoth",
+      "maxDelayDays": 7,
+      "interactions": [
+        { "id": "i5", "date": "2025-12-27", "note": "Drinks at the bar - he insisted on paying with fake coins" }
+      ]
+    },
+    {
+      "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+      "name": "Ivan Homeless",
+      "maxDelayDays": 30,
+      "interactions": [
+        { "id": "i6", "date": "2025-12-25", "note": "Visited him at the clinic, he's writing poetry again" },
+        { "id": "i7", "date": "2025-11-05", "note": "Long walk discussing literature and strange encounters" }
+      ]
+    },
+    {
+      "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+      "name": "Koroviev",
+      "maxDelayDays": 21,
+      "interactions": []
+    },
+    {
+      "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+      "name": "Azazello",
+      "maxDelayDays": 14,
+      "interactions": [
+        { "id": "i8", "date": "2025-12-15", "note": "Delivered a mysterious cream" }
+      ]
+    },
+    {
+      "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+      "name": "Hella",
+      "maxDelayDays": 30,
+      "interactions": [
+        { "id": "i9", "date": "2025-11-20", "note": "Brief encounter at the apartment" }
+      ]
+    },
+    {
+      "id": "8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+      "name": "The Master",
+      "maxDelayDays": 7,
+      "interactions": [
+        { "id": "i10", "date": "2025-12-30", "note": "Discussed his novel about Pontius Pilate" },
+        { "id": "i11", "date": "2025-12-01", "note": "Tea at his basement apartment" }
+      ]
+    },
+    {
+      "id": "9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+      "name": "Berlioz",
+      "maxDelayDays": 90,
+      "interactions": [
+        { "id": "i12", "date": "2025-05-01", "note": "Literary discussion - he was quite skeptical" }
+      ]
+    },
+    {
+      "id": "0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+      "name": "Natasha",
+      "maxDelayDays": 21,
+      "interactions": [
+        { "id": "i13", "date": "2025-12-31", "note": "She flew by on a broomstick" }
+      ]
+    },
+    {
+      "id": "1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+      "name": "Nikanor Bosoy",
+      "maxDelayDays": 45,
+      "interactions": [
+        { "id": "i14", "date": "2025-09-15", "note": "Helped him with apartment paperwork" }
+      ]
+    },
+    {
+      "id": "2f3a4b5c-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+      "name": "Styopa Likhodeev",
+      "maxDelayDays": 30,
+      "interactions": [
+        { "id": "i15", "date": "2025-10-01", "note": "Woke him up from a rough night" }
+      ]
+    }
+  ]
+}

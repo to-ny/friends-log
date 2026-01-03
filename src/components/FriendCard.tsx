@@ -142,7 +142,7 @@ export function FriendCard({ friend, onUpdate, onDelete, onDeleteInteraction }: 
             <ul className="space-y-1">
               {sortedInteractions.map(interaction => (
                 <li key={interaction.id} className="flex items-center gap-2 text-sm group">
-                  <span className="text-gray-500 font-mono">{interaction.date}</span>
+                  <span className="text-gray-500 font-mono">{new Date(interaction.date).toLocaleDateString()}</span>
                   <span className="text-gray-700">{interaction.note}</span>
                   <button
                     onClick={(e) => {

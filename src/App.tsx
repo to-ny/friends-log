@@ -48,10 +48,10 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-2xl mx-auto p-4">
+    <div className="h-screen bg-gray-50 flex flex-col">
+      <div className="max-w-3xl mx-auto w-full flex flex-col flex-1 min-h-0">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between px-4 pt-4 pb-2">
           <h1 className="text-2xl font-bold text-gray-800">Friends Log</h1>
           <button
             onClick={pickFolder}
@@ -64,18 +64,18 @@ function App() {
 
         {/* Error display */}
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm">
+          <div className="mx-4 mb-2 p-3 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm">
             {error}
           </div>
         )}
 
         {/* Add friend form */}
-        <div className="mb-4">
+        <div className="px-4 mb-2">
           <AddFriend onAdd={addFriend} />
         </div>
 
-        {/* Friends list */}
-        <div className="mb-4">
+        {/* Friends list - scrollable */}
+        <div className="flex-1 overflow-y-auto px-4 pb-4">
           <FriendList
             friends={data.friends}
             onUpdate={updateFriend}
@@ -84,8 +84,10 @@ function App() {
           />
         </div>
 
-        {/* Quick log bar */}
-        <QuickLog friends={data.friends} onAddInteraction={addInteraction} />
+        {/* Quick log bar - fixed at bottom */}
+        <div className="px-4 py-3 border-t border-gray-200 bg-gray-50">
+          <QuickLog friends={data.friends} onAddInteraction={addInteraction} />
+        </div>
       </div>
     </div>
   );
