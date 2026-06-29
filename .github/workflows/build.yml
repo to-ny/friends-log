@@ -11,10 +11,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -29,19 +29,19 @@ jobs:
         run: npm run tauri build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: friends-log-windows
           path: src-tauri/target/release/*.exe
 
       - name: Release latest build
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: latest
           name: Latest build
           body: Latest build from main (${{ github.sha }}).
-          prerelease: true
-          make_latest: false
+          prerelease: false
+          make_latest: true
           files: src-tauri/target/release/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
