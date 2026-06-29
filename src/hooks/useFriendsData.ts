@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { open } from '@tauri-apps/plugin-dialog';
-import { readTextFile, writeTextFile, exists } from '@tauri-apps/plugin-fs';
+import { readTextFile, writeTextFile, exists, copyFile, rename } from '@tauri-apps/plugin-fs';
 import type { Friend, FriendsData, Interaction } from '../types';
 import { generateId } from '../types';
 
@@ -9,20 +9,11 @@ const STORAGE_KEY = 'friends-log-file-path';
 const emptyData: FriendsData = { friends: [] };
 
 export function useFriendsData() {
-  const [filePath, setFilePath] = useState<string | null>(null);
+  const [filePath, setFilePath] = useState<string | null>(() => localStorage.getItem(STORAGE_KEY));
   const [data, setData] = useState<FriendsData>(emptyData);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => filePath !== null);
   const [error, setError] = useState<string | null>(null);
-
-  // Load saved file path on mount
-  useEffect(() => {
-    const savedPath = localStorage.getItem(STORAGE_KEY);
-    if (savedPath) {
-      setFilePath(savedPath);
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   // Load data when file path changes
   useEffect(() => {
@@ -31,6 +22,7 @@ export function useFriendsData() {
     async function loadData() {
       setLoading(true);
       setError(null);
+      setLoadFailed(false);
       try {
         const fileExists = await exists(filePath!);
         if (fileExists) {
@@ -44,7 +36,7 @@ export function useFriendsData() {
         }
       } catch (e) {
         setError(`Failed to load data: ${e}`);
-        setData(emptyData);
+        setLoadFailed(true);
       } finally {
         setLoading(false);
       }
@@ -53,17 +45,33 @@ export function useFriendsData() {
     loadData();
   }, [filePath]);
 
-  // Save data to file
+  // Save data to file atomically with backup
   const saveData = useCallback(async (newData: FriendsData) => {
     if (!filePath) return;
+    if (loadFailed) {
+      setError('Cannot save: the data file could not be loaded. Fix or remove friends.json, then click "Change folder" to reload.');
+      return;
+    }
     try {
-      await writeTextFile(filePath, JSON.stringify(newData, null, 2));
+      const json = JSON.stringify(newData, null, 2);
+      const backupPath = `${filePath}.bak`;
+      const tmpPath = `${filePath}.tmp`;
+
+      // Back up existing file before overwriting
+      if (await exists(filePath)) {
+        await copyFile(filePath, backupPath);
+      }
+
+      // Write to temp file, then atomically rename to the real path
+      await writeTextFile(tmpPath, json);
+      await rename(tmpPath, filePath);
+
       setData(newData);
       setError(null);
     } catch (e) {
       setError(`Failed to save data: ${e}`);
     }
-  }, [filePath]);
+  }, [filePath, loadFailed]);
 
   // Pick a folder and set the file path
   const pickFolder = useCallback(async () => {
