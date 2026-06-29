@@ -6,10 +6,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: friends-log-windows.exe
+            source: src-tauri/target/release/app.exe
+          - os: macos-latest
+            artifact: friends-log-macos.dmg
+            source: src-tauri/target/release/bundle/dmg/*.dmg
+          - os: ubuntu-latest
+            artifact: friends-log-linux.AppImage
+            source: src-tauri/target/release/bundle/appimage/*.AppImage
+    runs-on: ${{ matrix.os }}
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v5
 
@@ -22,17 +35,43 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev libssl-dev patchelf
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build Tauri app
         run: npm run tauri build
 
+      - name: Prepare artifact
+        shell: bash
+        run: cp ${{ matrix.source }} ${{ matrix.artifact }}
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
-          name: friends-log-windows
-          path: src-tauri/target/release/*.exe
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Delete existing release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete latest --yes --cleanup-tag || true
+
+      - uses: actions/download-artifact@v7
+        with:
+          path: artifacts
+          merge-multiple: true
 
       - name: Release latest build
         uses: softprops/action-gh-release@v3
@@ -42,6 +81,6 @@ jobs:
           body: Latest build from main (${{ github.sha }}).
           prerelease: false
           make_latest: true
-          files: src-tauri/target/release/*.exe
+          files: artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
